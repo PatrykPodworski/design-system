@@ -48,8 +48,21 @@ List every item:
 pnpm dlx shadcn@latest list PatrykPodworski/design-system
 ```
 
-Pin a version with `#<tag or commit SHA>`, for example
-`PatrykPodworski/design-system/button#<sha>`.
+### Pin a version
+
+Add a release tag to the address to install that version:
+
+```bash
+pnpm dlx shadcn@latest add --yes PatrykPodworski/design-system/sidebar#v1.2.0
+```
+
+The item and every registry dependency it pulls in (for `sidebar`: `button`, `sheet`,
+`use-mobile` and the rest) come from the same tag. Releases are listed under
+[tags](https://github.com/PatrykPodworski/design-system/tags).
+
+Only release tags pin dependencies. With a branch or a commit SHA
+(`sidebar#<sha>`), the CLI installs the named item at that ref but its dependencies from
+`main`. Without a ref, everything comes from `main`.
 
 ## Repository layout
 
@@ -57,6 +70,7 @@ Pin a version with `#<tag or commit SHA>`, for example
 registry.json             # registry items, generated from packages/ui
 scripts/
   generate-registry.mjs   # writes registry.json; --check fails when it is stale
+  release.mjs             # tags a release with dependencies pinned to the tag
 packages/
   ui/                     # @workspace/ui: the design system
     src/styles/globals.css    # the one theme, imported by every app
@@ -114,6 +128,26 @@ shared files, which the Next app and Next consumers need.
 `pnpm registry:check` fails when `registry.json` does not match `packages/ui`.
 `pnpm registry:build` writes the item JSON files to `public/r/` (not committed) for
 testing the registry from a local URL.
+
+### Cut a release
+
+On `main`, `registry.json` lists dependencies without a ref. A release tag points to a
+commit on top of `main` that pins them to the tag; a commit cannot contain its own SHA,
+so the tag is the ref.
+
+```bash
+pnpm release v1.2.0          # tags origin/main; pass a second argument to tag another commit
+git push origin v1.2.0
+```
+
+`pnpm release` fetches `origin`, regenerates `registry.json` with `--ref v1.2.0` in a
+temporary worktree, commits it and creates the annotated tag locally. It does not touch
+your checkout or push anything. The release commit is on no branch; the tag keeps it.
+
+CI runs on every pushed `v*` tag and checks that the tag's `registry.json` pins its
+dependencies to that tag (`pnpm registry:check --ref <tag>`), then lints, type-checks and
+builds. To undo a release before anyone uses it, delete the tag:
+`git push origin :refs/tags/v1.2.0 && git tag -d v1.2.0`.
 
 ## Credits
 

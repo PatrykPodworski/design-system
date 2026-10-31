@@ -10,7 +10,8 @@
     "typecheck": "turbo typecheck",
     "registry:build": "shadcn build",
     "registry:generate": "node scripts/generate-registry.mjs",
-    "registry:check": "node scripts/generate-registry.mjs --check"
+    "registry:check": "node scripts/generate-registry.mjs --check",
+    "release": "node scripts/release.mjs"
   },
   "devDependencies": {
     "prettier": "^3.9.10",

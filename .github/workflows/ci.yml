@@ -4,6 +4,7 @@ on:
   pull_request:
   push:
     branches: [main]
+    tags: ["v*"]
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -24,7 +25,10 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm registry:check
+      # A release tag's registry.json pins its dependencies to the tag (pnpm release).
+      - run: pnpm registry:check ${REF:+--ref "$REF"}
+        env:
+          REF: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm build
