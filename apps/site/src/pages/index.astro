@@ -1,0 +1,96 @@
+---
+import Install from "../components/install.astro"
+import { exampleList } from "../examples"
+import Site from "../layouts/site.astro"
+import { itemCopy, registryItems } from "../registry"
+import { installCommand, releaseTag } from "../release-tag"
+
+const examples = new Map(exampleList.map((item) => [item.name, item]))
+const missing = registryItems
+  .filter((item) => item.type === "registry:ui" && !examples.has(item.name))
+  .map((item) => item.name)
+
+if (missing.length > 0) {
+  throw new Error(`Missing examples: ${missing.join(", ")}`)
+}
+
+function cards(names: string[]) {
+  return names.map((name) => {
+    const item = registryItems.find((entry) => entry.name === name)
+    if (!item) {
+      throw new Error(`Unknown registry item: ${name}`)
+    }
+    const copy = itemCopy(item, examples.get(name))
+    return { name, ...copy }
+  })
+}
+
+const groups = [
+  {
+    title: "Components",
+    items: registryItems
+      .filter((item) => item.type === "registry:ui")
+      .map((item) => {
+        const copy = itemCopy(item, examples.get(item.name))
+        return { name: item.name, ...copy }
+      })
+      .sort((left, right) => left.name.localeCompare(right.name)),
+  },
+  {
+    title: "Theme",
+    items: cards(["theme", "font-inter", "font-cutive"]),
+  },
+  {
+    title: "Rules",
+    items: cards(["design-doc", "design-rules", "starter"]),
+  },
+  {
+    title: "Hooks and libraries",
+    items: cards(["use-highlighted-code", "use-mobile", "highlighter"]),
+  },
+]
+
+const grouped = new Set(
+  groups.flatMap((group) => group.items.map((item) => item.name))
+)
+const ungrouped = registryItems
+  .filter((item) => !grouped.has(item.name))
+  .map((item) => item.name)
+
+if (ungrouped.length > 0) {
+  throw new Error(
+    `Registry items missing from the home page: ${ungrouped.join(", ")}`
+  )
+}
+---
+
+<Site
+  title="Design system"
+  description="Live examples, variants and install commands for every component."
+>
+  <div class="page">
+    <header class="flex flex-col gap-4">
+      <h1 class="page-title">Design system</h1>
+      <p class="lead">
+        A shared theme and component set. Each item below installs from the
+        registry at {releaseTag}.
+      </p>
+      <Install command={installCommand("starter")} />
+    </header>
+    {groups.map((group) => (
+      <section class="flex flex-col gap-4">
+        <h2 class="section-title">{group.title}</h2>
+        <ul class="catalog">
+          {group.items.map((item) => (
+            <li>
+              <a href={`/components/${item.name}`}>
+                <span class="catalog-name">{item.title}</span>
+                <span class="catalog-desc">{item.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Site>

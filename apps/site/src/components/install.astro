@@ -1,0 +1,14 @@
+---
+import { CopyButton } from "./copy-button"
+
+interface Props {
+  command: string
+}
+
+const { command } = Astro.props
+---
+
+<div class="install">
+  <code>{command}</code>
+  <CopyButton client:load value={command} />
+</div>

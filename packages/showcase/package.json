@@ -6,11 +6,12 @@
   "scripts": {
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit && node ./check-examples.mjs"
   },
   "dependencies": {
     "@workspace/ui": "workspace:*",
     "lucide-react": "^1.64.0",
+    "recharts": "3.8.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
