@@ -9,7 +9,8 @@
       "title": "Theme",
       "description": "Color, radius and font tokens of the design system.",
       "registryDependencies": [
-        "PatrykPodworski/design-system/font-inter"
+        "PatrykPodworski/design-system/font-inter",
+        "PatrykPodworski/design-system/font-cutive"
       ],
       "cssVars": {
         "theme": {
@@ -112,6 +113,26 @@
           "latin"
         ],
         "dependency": "@fontsource-variable/inter"
+      }
+    },
+    {
+      "name": "font-cutive",
+      "type": "registry:font",
+      "title": "Cutive",
+      "description": "Cutive as the serif font for display text.",
+      "font": {
+        "family": "'Cutive', serif",
+        "provider": "google",
+        "import": "Cutive",
+        "variable": "--font-serif",
+        "weight": [
+          "400"
+        ],
+        "subsets": [
+          "latin"
+        ],
+        "dependency": "@fontsource/cutive",
+        "selector": ""
       }
     },
     {

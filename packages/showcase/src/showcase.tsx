@@ -162,6 +162,13 @@ export function Showcase({ framework }: { framework: string }) {
             </p>
           </header>
 
+          <Section title="Typography">
+            <div className="flex flex-col gap-2">
+              <p className="font-serif text-3xl">Cutive for display text</p>
+              <p>Inter for body text, labels and controls.</p>
+            </div>
+          </Section>
+
           <Section title="Buttons">
             <Button>Default</Button>
             <Button variant="secondary">Secondary</Button>
