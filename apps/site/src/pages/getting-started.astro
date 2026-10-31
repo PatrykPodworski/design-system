@@ -1,0 +1,63 @@
+---
+import Install from "../components/install.astro"
+import Site from "../layouts/site.astro"
+import { installCommand, releaseTag } from "../release-tag"
+
+const init = "pnpm dlx shadcn@latest init --preset b6Fmg2gT4 --pointer"
+const empty =
+  "pnpm dlx shadcn@latest init --preset b6Fmg2gT4 --pointer --template vite --name my-app --no-monorepo"
+---
+
+<Site
+  title="Getting started · Design system"
+  description="Install the theme and components from the shadcn registry."
+>
+  <div class="page">
+    <header class="flex flex-col gap-4">
+      <h1 class="page-title">Getting started</h1>
+      <p class="lead">
+        Nothing is published to npm. The shadcn CLI copies the source into your
+        project. This site pins {releaseTag}.
+      </p>
+    </header>
+    <ol class="steps">
+      <li>
+        <h2>Set up shadcn with the same preset</h2>
+        <p>
+          In a project that already exists, init writes components.json and the
+          theme tokens.
+        </p>
+        <Install command={init} />
+        <p>
+          In an empty folder, pick the framework with --template. This
+          repository tests vite, next and astro.
+        </p>
+        <Install command={empty} />
+      </li>
+      <li>
+        <h2>Add the theme and the rules</h2>
+        <p>
+          starter installs the theme (Inter, Cutive, colors, radius) and
+          DESIGN.md. Add --yes in a script. Without a terminal the CLI answers
+          no, installs nothing and still exits 0.
+        </p>
+        <Install command={`${installCommand("starter")} --yes`} />
+      </li>
+      <li>
+        <h2>Add the components you need</h2>
+        <p>
+          A component that depends on another installs that too, from this
+          registry, at the same tag.
+        </p>
+        <Install command={installCommand("button")} />
+      </li>
+      <li>
+        <h2>Upgrade</h2>
+        <p>
+          Run the same add command with the new tag and --overwrite, review the
+          diff, and update the tag in the project docs.
+        </p>
+      </li>
+    </ol>
+  </div>
+</Site>

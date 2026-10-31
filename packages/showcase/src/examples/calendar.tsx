@@ -1,0 +1,25 @@
+"use client"
+
+import * as React from "react"
+
+import { Calendar } from "@workspace/ui/components/calendar"
+
+export const meta = {
+  name: "calendar",
+  title: "Calendar",
+  description: "Pick a date.",
+  variants: [] as const,
+}
+
+export function Example() {
+  const [date, setDate] = React.useState<Date | undefined>(new Date())
+
+  return (
+    <Calendar
+      mode="single"
+      selected={date}
+      onSelect={setDate}
+      className="rounded-xl border"
+    />
+  )
+}

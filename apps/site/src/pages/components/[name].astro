@@ -1,0 +1,66 @@
+---
+import { ComponentDemo } from "../../components/component-demo"
+import { HighlightDemo } from "../../components/highlight-demo"
+import Install from "../../components/install.astro"
+import { MobileDemo } from "../../components/mobile-demo"
+import { exampleFor } from "../../examples"
+import Site from "../../layouts/site.astro"
+import { itemCopy, registryItems } from "../../registry"
+import { installCommand } from "../../release-tag"
+
+export function getStaticPaths() {
+  return registryItems.map((item) => ({
+    params: { name: item.name },
+  }))
+}
+
+const name = Astro.params.name ?? ""
+const item = registryItems.find((entry) => entry.name === name)
+if (!item) {
+  throw new Error(`Unknown registry item: ${name}`)
+}
+
+const example = exampleFor(name)
+const copy = itemCopy(item, example?.meta)
+const command = installCommand(name)
+const related: Record<string, { href: string; label: string }> = {
+  theme: { href: "/theme", label: "Open the theme page" },
+  "font-inter": { href: "/theme", label: "See the type samples" },
+  "font-cutive": { href: "/theme", label: "See the type samples" },
+  "design-doc": { href: "/design", label: "Read the rules" },
+  "design-rules": { href: "/design", label: "Read the rules" },
+  starter: { href: "/getting-started", label: "Follow the install steps" },
+  highlighter: {
+    href: "/components/use-highlighted-code",
+    label: "See the hook that uses it",
+  },
+}
+const link = related[name]
+---
+
+<Site title={`${copy.title} · Design system`} description={copy.description}>
+  <div class="page">
+    <header class="flex flex-col gap-4">
+      <h1 class="page-title">{copy.title}</h1>
+      <p>{copy.description}</p>
+      {example && example.meta.variants.length > 0 && (
+        <p class="text-sm text-muted-foreground">
+          Variants: {example.meta.variants.join(", ")}.
+        </p>
+      )}
+      <Install command={command} />
+      {link && (
+        <a href={link.href} class="text-sm font-medium underline">
+          {link.label}
+        </a>
+      )}
+    </header>
+    {example && (
+      <div class="preview">
+        <ComponentDemo client:load name={name} />
+      </div>
+    )}
+    {name === "use-mobile" && <MobileDemo client:load />}
+    {name === "use-highlighted-code" && <HighlightDemo client:load />}
+  </div>
+</Site>

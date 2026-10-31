@@ -1,0 +1,20 @@
+---
+import { marked } from "marked"
+import source from "../../../../DESIGN.md?raw"
+
+import Install from "../components/install.astro"
+import Site from "../layouts/site.astro"
+import { installCommand } from "../release-tag"
+
+const html = marked.parse(source, { async: false })
+---
+
+<Site
+  title="Rules · Design system"
+  description="The design rules for building UI with this system."
+>
+  <div class="page">
+    <Install command={installCommand("design-doc")} />
+    <article class="rules" set:html={html} />
+  </div>
+</Site>
