@@ -9,8 +9,8 @@
       "title": "Theme",
       "description": "Color, radius and font tokens of the design system.",
       "registryDependencies": [
-        "PatrykPodworski/design-system/font-inter",
-        "PatrykPodworski/design-system/font-cutive"
+        "PatrykPodworski/design-system/font-inter#v0.3.0",
+        "PatrykPodworski/design-system/font-cutive#v0.3.0"
       ],
       "cssVars": {
         "theme": {
@@ -154,7 +154,7 @@
       "title": "Agent rules",
       "description": "A Claude Code rule (.claude/rules/design-system.md) that points agents to DESIGN.md, which it installs too.",
       "registryDependencies": [
-        "PatrykPodworski/design-system/design-doc"
+        "PatrykPodworski/design-system/design-doc#v0.3.0"
       ],
       "files": [
         {
@@ -170,8 +170,8 @@
       "title": "Starter",
       "description": "The theme, DESIGN.md and the agent rule in one install. Add components separately.",
       "registryDependencies": [
-        "PatrykPodworski/design-system/theme",
-        "PatrykPodworski/design-system/design-rules"
+        "PatrykPodworski/design-system/theme#v0.3.0",
+        "PatrykPodworski/design-system/design-rules#v0.3.0"
       ]
     },
     {
@@ -198,7 +198,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/button"
+        "PatrykPodworski/design-system/button#v0.3.0"
       ],
       "files": [
         {
@@ -246,7 +246,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/button"
+        "PatrykPodworski/design-system/button#v0.3.0"
       ],
       "files": [
         {
@@ -328,7 +328,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/separator"
+        "PatrykPodworski/design-system/separator#v0.3.0"
       ],
       "files": [
         {
@@ -363,7 +363,7 @@
         "react-day-picker"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/button"
+        "PatrykPodworski/design-system/button#v0.3.0"
       ],
       "files": [
         {
@@ -396,7 +396,7 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/button"
+        "PatrykPodworski/design-system/button#v0.3.0"
       ],
       "files": [
         {
@@ -446,7 +446,7 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/button"
+        "PatrykPodworski/design-system/button#v0.3.0"
       ],
       "files": [
         {
@@ -479,8 +479,8 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/button",
-        "PatrykPodworski/design-system/input-group"
+        "PatrykPodworski/design-system/button#v0.3.0",
+        "PatrykPodworski/design-system/input-group#v0.3.0"
       ],
       "files": [
         {
@@ -499,8 +499,8 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/dialog",
-        "PatrykPodworski/design-system/input-group"
+        "PatrykPodworski/design-system/dialog#v0.3.0",
+        "PatrykPodworski/design-system/input-group#v0.3.0"
       ],
       "files": [
         {
@@ -535,7 +535,7 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/button"
+        "PatrykPodworski/design-system/button#v0.3.0"
       ],
       "files": [
         {
@@ -613,8 +613,8 @@
         "cn"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/label",
-        "PatrykPodworski/design-system/separator"
+        "PatrykPodworski/design-system/label#v0.3.0",
+        "PatrykPodworski/design-system/separator#v0.3.0"
       ],
       "files": [
         {
@@ -647,9 +647,9 @@
         "cn"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/button",
-        "PatrykPodworski/design-system/input",
-        "PatrykPodworski/design-system/textarea"
+        "PatrykPodworski/design-system/button#v0.3.0",
+        "PatrykPodworski/design-system/input#v0.3.0",
+        "PatrykPodworski/design-system/textarea#v0.3.0"
       ],
       "files": [
         {
@@ -699,7 +699,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/separator"
+        "PatrykPodworski/design-system/separator#v0.3.0"
       ],
       "files": [
         {
@@ -762,7 +762,7 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/dropdown-menu"
+        "PatrykPodworski/design-system/dropdown-menu#v0.3.0"
       ],
       "files": [
         {
@@ -781,7 +781,7 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/button"
+        "PatrykPodworski/design-system/button#v0.3.0"
       ],
       "files": [
         {
@@ -845,7 +845,7 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/button"
+        "PatrykPodworski/design-system/button#v0.3.0"
       ],
       "files": [
         {
@@ -894,7 +894,7 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/button"
+        "PatrykPodworski/design-system/button#v0.3.0"
       ],
       "files": [
         {
@@ -989,7 +989,7 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/button"
+        "PatrykPodworski/design-system/button#v0.3.0"
       ],
       "files": [
         {
@@ -1009,13 +1009,13 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/button",
-        "PatrykPodworski/design-system/input",
-        "PatrykPodworski/design-system/separator",
-        "PatrykPodworski/design-system/sheet",
-        "PatrykPodworski/design-system/skeleton",
-        "PatrykPodworski/design-system/tooltip",
-        "PatrykPodworski/design-system/use-mobile"
+        "PatrykPodworski/design-system/button#v0.3.0",
+        "PatrykPodworski/design-system/input#v0.3.0",
+        "PatrykPodworski/design-system/separator#v0.3.0",
+        "PatrykPodworski/design-system/sheet#v0.3.0",
+        "PatrykPodworski/design-system/skeleton#v0.3.0",
+        "PatrykPodworski/design-system/tooltip#v0.3.0",
+        "PatrykPodworski/design-system/use-mobile#v0.3.0"
       ],
       "files": [
         {
@@ -1137,7 +1137,7 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/button"
+        "PatrykPodworski/design-system/button#v0.3.0"
       ],
       "files": [
         {
@@ -1156,7 +1156,7 @@
         "cn"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/toggle"
+        "PatrykPodworski/design-system/toggle#v0.3.0"
       ],
       "files": [
         {
@@ -1205,7 +1205,7 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "PatrykPodworski/design-system/collapsible"
+        "PatrykPodworski/design-system/collapsible#v0.3.0"
       ],
       "files": [
         {
@@ -1219,7 +1219,7 @@
       "name": "use-highlighted-code",
       "type": "registry:hook",
       "registryDependencies": [
-        "PatrykPodworski/design-system/highlighter"
+        "PatrykPodworski/design-system/highlighter#v0.3.0"
       ],
       "files": [
         {
