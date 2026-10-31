@@ -105,10 +105,11 @@ function readBlock(css, selector) {
 function buildTheme() {
   const css = readFileSync(`${SRC}/styles/globals.css`, "utf8")
   const themeVars = readBlock(css, "@theme inline")
-  // Color mappings and --font-sans come from `shadcn init` and the font item.
+  // Color mappings come from `shadcn init`, the font variables from the font items.
+  const fontVariables = fonts.map(({ font }) => font.variable.slice(2))
   const theme = Object.fromEntries(
     Object.entries(themeVars).filter(
-      ([key]) => !key.startsWith("color-") && key !== "font-sans"
+      ([key]) => !key.startsWith("color-") && !fontVariables.includes(key)
     )
   )
 
@@ -117,7 +118,7 @@ function buildTheme() {
     type: "registry:theme",
     title: "Theme",
     description: "Color, radius and font tokens of the design system.",
-    registryDependencies: [address("font-inter")],
+    registryDependencies: fonts.map(({ name }) => address(name)),
     cssVars: {
       theme,
       light: readBlock(css, ":root"),
@@ -133,20 +134,42 @@ function buildTheme() {
   }
 }
 
-const font = {
-  name: "font-inter",
-  type: "registry:font",
-  title: "Inter",
-  description: "Inter as the sans-serif font.",
-  font: {
-    family: "'Inter Variable', sans-serif",
-    provider: "google",
-    import: "Inter",
-    variable: "--font-sans",
-    subsets: ["latin"],
-    dependency: "@fontsource-variable/inter",
+// Every font variable the theme defines comes from one of these items.
+const fonts = [
+  {
+    name: "font-inter",
+    type: "registry:font",
+    title: "Inter",
+    description: "Inter as the sans-serif font.",
+    font: {
+      family: "'Inter Variable', sans-serif",
+      provider: "google",
+      import: "Inter",
+      variable: "--font-sans",
+      subsets: ["latin"],
+      dependency: "@fontsource-variable/inter",
+    },
   },
-}
+  {
+    name: "font-cutive",
+    type: "registry:font",
+    title: "Cutive",
+    description: "Cutive as the serif font for display text.",
+    font: {
+      family: "'Cutive', serif",
+      provider: "google",
+      import: "Cutive",
+      variable: "--font-serif",
+      weight: ["400"],
+      subsets: ["latin"],
+      dependency: "@fontsource/cutive",
+      // Without a selector the CLI rewrites the consumer's `html { @apply font-sans }`
+      // to the font installed last. An empty selector adds no base rule, so Inter stays
+      // the default and Cutive applies only through `font-serif`.
+      selector: "",
+    },
+  },
+]
 
 // Documents copied into the consumer's project. `~/` is the consumer's project root.
 function buildFile({ name, title, description, path, target, dependsOn = [] }) {
@@ -190,7 +213,7 @@ const starter = {
   registryDependencies: ["theme", "design-rules"].map(address),
 }
 
-const items = [buildTheme(), font, ...documents, starter]
+const items = [buildTheme(), ...fonts, ...documents, starter]
 for (const { dir, type, target } of FOLDERS) {
   const files = readdirSync(join(SRC, dir))
     .filter((file) => /\.tsx?$/.test(file))

@@ -29,7 +29,8 @@ Nothing is published to npm: the CLI copies the source files into your project.
 
    This repository tests the theme and components with `vite`, `next` and `astro`.
 
-2. Add the theme (colors, radius, Inter font) and the components you need:
+2. Add the theme (colors, radius, the Inter and Cutive fonts) and the components you
+   need:
 
    ```bash
    pnpm dlx shadcn@latest add --yes PatrykPodworski/design-system/theme
@@ -47,6 +48,17 @@ List every item:
 ```bash
 pnpm dlx shadcn@latest list PatrykPodworski/design-system
 ```
+
+### Fonts
+
+The theme installs two font items:
+
+- `font-inter`: Inter (`@fontsource-variable/inter`) as `--font-sans`, the default for
+  all text.
+- `font-cutive`: Cutive (`@fontsource/cutive`) as `--font-serif`, for display text
+  through the `font-serif` utility. It does not change the default font.
+
+[DESIGN.md](DESIGN.md) says where each font goes.
 
 ### Rules and docs
 
