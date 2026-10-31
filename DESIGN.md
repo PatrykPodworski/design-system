@@ -124,8 +124,12 @@ Pick the component by job:
     page: 6.0 and 5.1 in light, 6.2 and 5.3 in dark.
   - `link` on `background` (5.2 / 10.3). This is the yellow text color.
   - `sidebar-primary-foreground` on `sidebar-primary` (4.6 / 7.1).
+  - `input` on `background` (3.2 / 3.1). Field borders use `input`.
+  - `ring` on `background` (4.3 / 4.3). `sidebar-ring` on `sidebar` is 4.1 / 3.8.
   - `primary` as text on `background` is still 1.6 in light mode. It is a fill, not a
     text color. Use `link`.
+  - `border` on `background` is still 1.2 / 1.3. Dividers use `border`. Some chart
+    colors are also under 3:1. They are categorical fills, not control boundaries.
 - Every control is reachable by keyboard and shows the focus ring (`ring` token). Do not
   remove outlines.
 - Touch targets are at least 44×44px on mobile. Grow the hit area with padding or a
