@@ -1,5 +1,7 @@
 # design-system
 
+[![CI](https://github.com/PatrykPodworski/design-system/actions/workflows/ci.yml/badge.svg)](https://github.com/PatrykPodworski/design-system/actions/workflows/ci.yml)
+
 A shared theme and component set for React projects built with Vite, Next.js or Astro.
 
 The theme and components live in `packages/ui`. Three reference apps render the same
@@ -17,12 +19,25 @@ Nothing is published to npm: the CLI copies the source files into your project.
    pnpm dlx shadcn@latest init --preset b6Fmg2gT4 --pointer
    ```
 
+   In an empty folder, the CLI creates a new project. Pick the framework with
+   `--template`, and pass `--name` and `--no-monorepo` to skip the prompts for the project
+   name and the monorepo choice:
+
+   ```bash
+   pnpm dlx shadcn@latest init --preset b6Fmg2gT4 --pointer --template vite --name my-app --no-monorepo
+   ```
+
+   This repository tests the theme and components with `vite`, `next` and `astro`.
+
 2. Add the theme (colors, radius, Inter font) and the components you need:
 
    ```bash
-   pnpm dlx shadcn@latest add PatrykPodworski/design-system/theme
-   pnpm dlx shadcn@latest add PatrykPodworski/design-system/button PatrykPodworski/design-system/dialog
+   pnpm dlx shadcn@latest add --yes PatrykPodworski/design-system/theme
+   pnpm dlx shadcn@latest add --yes PatrykPodworski/design-system/button PatrykPodworski/design-system/dialog
    ```
+
+   `--yes` answers the CLI's "install a new theme?" prompt. Without a terminal (in a
+   script or an agent) the CLI answers no, installs nothing and still exits with code 0.
 
    Components that depend on other components (for example `dialog` on `button`) install
    those too, from this registry.
