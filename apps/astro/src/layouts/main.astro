@@ -1,0 +1,42 @@
+---
+import "@workspace/ui/globals.css"
+
+interface Props {
+  title: string
+}
+
+const { title } = Astro.props
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <script is:inline>
+      // Applies the saved or system theme before paint, and toggles it with the "d" key.
+      const root = document.documentElement
+      const stored = localStorage.getItem("theme")
+      const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches
+      const isDark = stored ? stored === "dark" : prefersDark
+      root.classList.toggle("dark", isDark)
+      addEventListener("keydown", (event) => {
+        if (event.repeat || event.metaKey || event.ctrlKey || event.altKey)
+          return
+        if (event.key.toLowerCase() !== "d") return
+        const target = event.target
+        if (
+          target instanceof HTMLElement &&
+          target.closest("input, textarea, select, [contenteditable='true']")
+        )
+          return
+        const next = root.classList.toggle("dark") ? "dark" : "light"
+        localStorage.setItem("theme", next)
+      })
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

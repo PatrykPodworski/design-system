@@ -1,0 +1,21 @@
+---
+import { Badge } from "@workspace/ui/components/badge"
+import { Button } from "@workspace/ui/components/button"
+import { Showcase } from "@workspace/showcase"
+import Main from "@/layouts/main.astro"
+---
+
+<Main title="Design system: Astro">
+  <div class="mx-auto max-w-5xl px-6 pt-6 md:px-10">
+    <div class="flex flex-wrap items-center gap-3 rounded-2xl border border-dashed border-primary/60 bg-primary/10 p-4">
+      <Badge variant="outline">Static</Badge>
+      <p class="text-sm">
+        Rendered at build time from an .astro file, without client JavaScript.
+      </p>
+      <Button variant="secondary" size="sm">
+        Static button
+      </Button>
+    </div>
+  </div>
+  <Showcase client:load framework="Astro" />
+</Main>
