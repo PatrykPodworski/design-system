@@ -24,7 +24,7 @@ export default defineConfig([
   },
   {
     // Upstream shadcn files, kept as the CLI writes them so `shadcn add --overwrite` stays clean.
-    files: ["src/components/ui/carousel.tsx", "src/hooks/use-mobile.ts"],
+    files: ["src/hooks/use-mobile.ts"],
     rules: {
       "react-hooks/set-state-in-effect": "off",
     },
