@@ -1,6 +1,9 @@
 // Generates registry.json from packages/ui so the registry always matches the source.
-// Usage: node scripts/generate-registry.mjs [--check]
-//   --check  exit 1 when registry.json is out of date instead of writing it.
+// Usage: node scripts/generate-registry.mjs [--check] [--ref <ref>]
+//   --check      exit 1 when registry.json is out of date instead of writing it.
+//   --ref <ref>  pin every registryDependency to <ref> (a release tag). The shadcn CLI
+//                resolves a dependency without a ref from the default branch, even when
+//                the item that depends on it was installed at a ref.
 
 import { readFileSync, readdirSync, writeFileSync } from "node:fs"
 import { basename, extname, join } from "node:path"
@@ -26,7 +29,14 @@ const FOLDERS = [
   { dir: "lib", type: "registry:lib", target: "@lib" },
 ]
 
-const address = (name) => `${REPO}/${name}`
+const refIndex = process.argv.indexOf("--ref")
+const ref = refIndex === -1 ? undefined : process.argv[refIndex + 1]
+if (refIndex !== -1 && !/^[\w.][\w./-]*$/.test(ref ?? "")) {
+  console.error(`Invalid --ref "${ref ?? ""}". Pass a tag such as v1.2.0.`)
+  process.exit(1)
+}
+
+const address = (name) => `${REPO}/${name}${ref ? `#${ref}` : ""}`
 
 function packageName(specifier) {
   const parts = specifier.split("/")
