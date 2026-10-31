@@ -39,6 +39,8 @@ apps update to the new release tag. An update overwrites local edits.
   not use it for large backgrounds or for text (see "Accessibility" for the contrast).
 - `destructive` is for actions that delete or cannot be undone, and for errors.
 - Text on `muted` or `background` that is secondary uses `text-muted-foreground`.
+- `overlay` is the scrim behind modal surfaces: `dialog`, `alert-dialog`, `sheet`,
+  `drawer`, and the `::backdrop` of a native `<dialog>` (`backdrop:bg-overlay`).
 - Every screen works in light and dark mode. Dark mode is the `.dark` class on a parent
   element; the tokens switch, the markup does not change. Never write `dark:` overrides
   for colors that a token already covers.

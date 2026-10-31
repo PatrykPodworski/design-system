@@ -8,6 +8,10 @@
       "type": "registry:theme",
       "title": "Theme",
       "description": "Color, radius and font tokens of the design system.",
+      "dependencies": [
+        "shadcn",
+        "tw-animate-css"
+      ],
       "registryDependencies": [
         "PatrykPodworski/design-system/font-inter",
         "PatrykPodworski/design-system/font-cutive"
@@ -15,6 +19,7 @@
       "cssVars": {
         "theme": {
           "font-heading": "var(--font-sans)",
+          "color-overlay": "var(--overlay)",
           "radius-sm": "calc(var(--radius) * 0.6)",
           "radius-md": "calc(var(--radius) * 0.8)",
           "radius-lg": "var(--radius)",
@@ -48,6 +53,7 @@
           "chart-4": "oklch(0.554 0.135 66.442)",
           "chart-5": "oklch(0.476 0.114 61.907)",
           "radius": "0.875rem",
+          "overlay": "oklch(0 0 0 / 80%)",
           "sidebar": "oklch(0.987 0.002 197.1)",
           "sidebar-foreground": "oklch(0.148 0.004 228.8)",
           "sidebar-primary": "oklch(0.681 0.162 75.834)",
@@ -88,15 +94,13 @@
           "sidebar-accent": "oklch(0.275 0.011 216.9)",
           "sidebar-accent-foreground": "oklch(0.987 0.002 197.1)",
           "sidebar-border": "oklch(1 0 0 / 10%)",
-          "sidebar-ring": "oklch(0.56 0.021 213.5)"
+          "sidebar-ring": "oklch(0.56 0.021 213.5)",
+          "overlay": "oklch(0 0 0 / 80%)"
         }
       },
       "css": {
-        "@layer base": {
-          "button:not(:disabled), [role=\"button\"]:not(:disabled)": {
-            "cursor": "pointer"
-          }
-        }
+        "@import \"tw-animate-css\"": {},
+        "@import \"shadcn/tailwind.css\"": {}
       }
     },
     {
