@@ -22,11 +22,4 @@ export default defineConfig([
       "react-refresh/only-export-components": "off",
     },
   },
-  {
-    // Upstream shadcn files, kept as the CLI writes them so `shadcn add --overwrite` stays clean.
-    files: ["src/components/ui/carousel.tsx"],
-    rules: {
-      "react-hooks/set-state-in-effect": "off",
-    },
-  },
 ])
