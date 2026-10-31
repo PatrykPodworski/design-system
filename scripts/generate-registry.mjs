@@ -5,7 +5,7 @@
 //                resolves a dependency without a ref from the default branch, even when
 //                the item that depends on it was installed at a ref.
 
-import { readFileSync, readdirSync, writeFileSync } from "node:fs"
+import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs"
 import { basename, extname, join } from "node:path"
 
 const REPO = "PatrykPodworski/design-system"
@@ -148,7 +148,49 @@ const font = {
   },
 }
 
-const items = [buildTheme(), font]
+// Documents copied into the consumer's project. `~/` is the consumer's project root.
+function buildFile({ name, title, description, path, target, dependsOn = [] }) {
+  if (!existsSync(path)) throw new Error(`${name}: "${path}" does not exist`)
+  return {
+    name,
+    type: "registry:file",
+    title,
+    description,
+    ...(dependsOn.length && { registryDependencies: dependsOn.map(address) }),
+    files: [{ path, type: "registry:file", target }],
+  }
+}
+
+const documents = [
+  buildFile({
+    name: "design-doc",
+    title: "Design rules",
+    description:
+      "DESIGN.md: the rules for building UI with this design system.",
+    path: "DESIGN.md",
+    target: "~/DESIGN.md",
+  }),
+  buildFile({
+    name: "design-rules",
+    title: "Agent rules",
+    description:
+      "A Claude Code rule (.claude/rules/design-system.md) that points agents to DESIGN.md, which it installs too.",
+    path: "registry/rules/design-system.md",
+    target: "~/.claude/rules/design-system.md",
+    dependsOn: ["design-doc"],
+  }),
+]
+
+const starter = {
+  name: "starter",
+  type: "registry:item",
+  title: "Starter",
+  description:
+    "The theme, DESIGN.md and the agent rule in one install. Add components separately.",
+  registryDependencies: ["theme", "design-rules"].map(address),
+}
+
+const items = [buildTheme(), font, ...documents, starter]
 for (const { dir, type, target } of FOLDERS) {
   const files = readdirSync(join(SRC, dir))
     .filter((file) => /\.tsx?$/.test(file))

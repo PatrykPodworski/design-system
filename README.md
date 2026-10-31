@@ -48,6 +48,57 @@ List every item:
 pnpm dlx shadcn@latest list PatrykPodworski/design-system
 ```
 
+### Rules and docs
+
+The design rules ship as registry items too, so a project needs no copy or submodule of
+this repository:
+
+| Item           | Installs                         | What it is                                                                  |
+| -------------- | -------------------------------- | --------------------------------------------------------------------------- |
+| `design-doc`   | `DESIGN.md`                      | The rules for building UI with this system ([DESIGN.md](DESIGN.md))         |
+| `design-rules` | `.claude/rules/design-system.md` | A Claude Code rule that tells agents to read `DESIGN.md`; adds `design-doc` |
+| `starter`      | `theme` + `design-rules`         | Everything except components, in one command                                |
+
+```bash
+pnpm dlx shadcn@latest add --yes PatrykPodworski/design-system/starter
+```
+
+Claude Code loads every file in `.claude/rules/` at the start of a session, so the
+rule needs no line in `CLAUDE.md`. For other agents, add one line to `AGENTS.md`:
+"Before any UI work, read `DESIGN.md` and follow it."
+
+The CLI does not replace an existing file that differs: it asks, and without a terminal
+it keeps your file and exits with code 0. Pass `--overwrite` to update the files to a new
+release.
+
+### Adopt the design system in an existing project
+
+For a Vite or Next.js app with Tailwind 4, such as one that has hand-rolled components:
+
+1. Pick the release tag, for example `v1.2.0`, from
+   [tags](https://github.com/PatrykPodworski/design-system/tags). Use it in every
+   command below and write it in the project's `CLAUDE.md` or `AGENTS.md`, for example
+   "Design system: `PatrykPodworski/design-system`, tag `v1.2.0`".
+2. Set up shadcn: `pnpm dlx shadcn@latest init --preset b6Fmg2gT4 --pointer`. It writes
+   `components.json`, `lib/utils.ts` and the theme into the main CSS file. Commit, then
+   check the CSS diff against your own tokens.
+3. Add the theme and the rules:
+
+   ```bash
+   pnpm dlx shadcn@latest add --yes PatrykPodworski/design-system/starter#v1.2.0
+   ```
+
+4. Remove any older pointer to the design rules from `CLAUDE.md` or `AGENTS.md` (a path
+   on someone's machine, a submodule).
+5. Add the components the app needs, replacing one hand-rolled component at a time:
+
+   ```bash
+   pnpm dlx shadcn@latest add --yes PatrykPodworski/design-system/button#v1.2.0 PatrykPodworski/design-system/dialog#v1.2.0
+   ```
+
+6. To upgrade, run the same `add` commands with the new tag and `--overwrite`, review the
+   diff, and update the tag in `CLAUDE.md` or `AGENTS.md`.
+
 ### Pin a version
 
 Add a release tag to the address to install that version:
@@ -67,7 +118,9 @@ Only release tags pin dependencies. With a branch or a commit SHA
 ## Repository layout
 
 ```
-registry.json             # registry items, generated from packages/ui
+registry.json             # registry items, generated from packages/ui and the docs
+DESIGN.md                 # design rules, shipped as the design-doc item
+registry/rules/           # agent rules, shipped as the design-rules item
 scripts/
   generate-registry.mjs   # writes registry.json; --check fails when it is stale
   release.mjs             # tags a release with dependencies pinned to the tag
@@ -125,7 +178,11 @@ Run it from `packages/ui`, not from an app: the CLI applies the `rsc` setting of
 folder it runs in, and from the Vite or Astro app it strips `"use client"` from the
 shared files, which the Next app and Next consumers need.
 
-`pnpm registry:check` fails when `registry.json` does not match `packages/ui`.
+`DESIGN.md` and `registry/rules/design-system.md` are edited directly. `registry.json`
+only names their paths, so a text change needs no regeneration; the next release ships it.
+
+`pnpm registry:check` fails when `registry.json` does not match `packages/ui` and the
+document items.
 `pnpm registry:build` writes the item JSON files to `public/r/` (not committed) for
 testing the registry from a local URL.
 

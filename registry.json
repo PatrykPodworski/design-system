@@ -115,6 +115,45 @@
       }
     },
     {
+      "name": "design-doc",
+      "type": "registry:file",
+      "title": "Design rules",
+      "description": "DESIGN.md: the rules for building UI with this design system.",
+      "files": [
+        {
+          "path": "DESIGN.md",
+          "type": "registry:file",
+          "target": "~/DESIGN.md"
+        }
+      ]
+    },
+    {
+      "name": "design-rules",
+      "type": "registry:file",
+      "title": "Agent rules",
+      "description": "A Claude Code rule (.claude/rules/design-system.md) that points agents to DESIGN.md, which it installs too.",
+      "registryDependencies": [
+        "PatrykPodworski/design-system/design-doc"
+      ],
+      "files": [
+        {
+          "path": "registry/rules/design-system.md",
+          "type": "registry:file",
+          "target": "~/.claude/rules/design-system.md"
+        }
+      ]
+    },
+    {
+      "name": "starter",
+      "type": "registry:item",
+      "title": "Starter",
+      "description": "The theme, DESIGN.md and the agent rule in one install. Add components separately.",
+      "registryDependencies": [
+        "PatrykPodworski/design-system/theme",
+        "PatrykPodworski/design-system/design-rules"
+      ]
+    },
+    {
       "name": "accordion",
       "type": "registry:ui",
       "dependencies": [
