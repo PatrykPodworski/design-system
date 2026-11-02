@@ -1,0 +1,324 @@
+.content-grid {
+  --gutter: 1.5rem;
+  --content: 64rem;
+  --breakout: 76rem;
+
+  display: grid;
+  grid-template-columns:
+    [full-width-start] minmax(var(--gutter), 1fr)
+    [breakout-start] minmax(0, calc((var(--breakout) - var(--content)) / 2))
+    [content-start] min(100% - var(--gutter) * 2, var(--content)) [content-end]
+    minmax(0, calc((var(--breakout) - var(--content)) / 2)) [breakout-end]
+    minmax(var(--gutter), 1fr) [full-width-end];
+  padding-block: 2.5rem 4rem;
+}
+
+.content-grid > * {
+  grid-column: content;
+}
+
+.skip {
+  position: absolute;
+  inset-inline-start: 1rem;
+  inset-block-start: 1rem;
+  transform: translateY(-200%);
+  background: var(--background);
+  color: var(--foreground);
+  padding: 0.5rem 0.75rem;
+  z-index: 30;
+}
+
+.skip:focus {
+  transform: none;
+}
+
+.site-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1.25rem;
+  padding-block: 0.25rem;
+  padding-inline: max(1.5rem, calc((100% - 64rem) / 2));
+  border-block-end: 1px solid var(--border);
+  background: var(--background);
+}
+
+.wordmark {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.25rem;
+  margin-inline-start: auto;
+}
+
+.site-nav a {
+  padding: 0.75rem;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--foreground);
+}
+
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  min-block-size: 2.75rem;
+  min-inline-size: 2.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--foreground);
+}
+
+.theme-toggle:active {
+  background: var(--muted);
+}
+
+.theme-toggle .icon-sun {
+  display: none;
+}
+
+html.dark .theme-toggle .icon-moon {
+  display: none;
+}
+
+html.dark .theme-toggle .icon-sun {
+  display: block;
+}
+
+.site-header a:focus-visible,
+.theme-toggle:focus-visible,
+.catalog a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .site-nav a:hover {
+    color: var(--foreground);
+  }
+
+  .catalog a:hover .catalog-name {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.page-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 1.4rem + 2vw, 3.25rem);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.lead,
+.page p,
+.rules p,
+.rules li {
+  max-inline-size: 68ch;
+  line-height: 1.6;
+}
+
+.lead {
+  color: var(--muted-foreground);
+}
+
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  column-gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.catalog a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-block-size: 2.75rem;
+  padding-block: 0.9rem;
+  border-block-start: 1px solid var(--border);
+  color: inherit;
+  text-decoration: none;
+}
+
+.catalog-name {
+  font-weight: 500;
+}
+
+.catalog-desc {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+}
+
+.install {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding-block: 0.5rem;
+  padding-inline: 0.75rem 0.5rem;
+}
+
+.install code {
+  flex: 1 1 16rem;
+  min-inline-size: 0;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.preview {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.swatches,
+.radii {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+  gap: 0.75rem;
+}
+
+.swatch,
+.radius-sample {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.swatch-color {
+  block-size: 3.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.radius-box {
+  block-size: 3.5rem;
+  border: 1px solid var(--border);
+  background: var(--muted);
+}
+
+.token-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.token-value {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.type-sample {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rules :is(h1, h2, h3) {
+  font-weight: 600;
+  line-height: 1.3;
+  margin-block-start: 2rem;
+}
+
+.rules h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 1.4rem + 2vw, 3.25rem);
+  font-weight: 400;
+  margin-block-start: 0;
+}
+
+.rules :is(ul, ol) {
+  padding-inline-start: 1.25rem;
+}
+
+.rules li + li {
+  margin-block-start: 0.35rem;
+}
+
+.rules a {
+  color: var(--foreground);
+  text-underline-offset: 0.15em;
+}
+
+.rules :not(pre) > code {
+  font-size: 0.875em;
+  background: var(--muted);
+  padding-inline: 0.3em;
+  border-radius: 0.3em;
+}
+
+.rules pre {
+  max-inline-size: 100%;
+  overflow-x: auto;
+  background: var(--muted);
+  padding: 1rem;
+  border-radius: var(--radius);
+}
+
+.rules table {
+  display: block;
+  max-inline-size: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.rules :is(th, td) {
+  border-block-end: 1px solid var(--border);
+  padding-block: 0.5rem;
+  padding-inline: 0.75rem;
+  text-align: start;
+  vertical-align: top;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.steps li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.steps h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}

@@ -145,13 +145,20 @@ function Section({
 }
 
 /** Renders a sample of the design system's components. Used by every reference app. */
-export function Showcase({ framework }: { framework: string }) {
+export function Showcase({
+  framework,
+  embedded = false,
+}: {
+  framework: string
+  embedded?: boolean
+}) {
   const [date, setDate] = React.useState<Date | undefined>(new Date())
+  const Root = embedded ? "div" : "main"
 
   return (
     <TooltipProvider>
       <Toaster>
-        <main className="mx-auto flex max-w-5xl flex-col gap-10 p-6 md:p-10">
+        <Root className="mx-auto flex max-w-5xl flex-col gap-10 p-6 md:p-10">
           <header className="flex flex-col gap-2">
             <h1 className="font-heading text-3xl font-semibold">
               Design system
@@ -417,7 +424,7 @@ export function Showcase({ framework }: { framework: string }) {
               </TableBody>
             </Table>
           </Section>
-        </main>
+        </Root>
       </Toaster>
     </TooltipProvider>
   )

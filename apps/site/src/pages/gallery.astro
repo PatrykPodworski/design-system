@@ -1,0 +1,21 @@
+---
+import { Showcase } from "@workspace/showcase"
+
+import Site from "../layouts/site.astro"
+---
+
+<Site
+  title="Gallery · Design system"
+  description="The component gallery shared by the Vite, Next.js and Astro reference apps."
+>
+  <div class="page">
+    <header class="flex flex-col gap-4">
+      <h1 class="page-title">Gallery</h1>
+      <p class="lead">
+        The same sample the Vite, Next.js and Astro reference apps render. Press
+        d to toggle dark mode.
+      </p>
+    </header>
+    <Showcase client:load framework="Site" embedded />
+  </div>
+</Site>

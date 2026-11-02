@@ -6,7 +6,8 @@ A shared theme and component set for React projects built with Vite, Next.js or 
 
 The theme and components live in `packages/ui`. Three reference apps render the same
 component showcase, and a shadcn registry (`registry.json`) lets other projects copy the
-theme and components in.
+theme and components in. `apps/site` is the public site for that registry: every
+component, the theme, the design rules and a getting-started page.
 
 ## Use it in another project
 
@@ -146,6 +147,7 @@ apps/
   vite/                   # React + Vite
   next/                   # Next.js App Router
   astro/                  # Astro + @astrojs/react
+  site/                   # public showcase (Astro), deployed as a static site
 ```
 
 Apps import components as `@workspace/ui/components/<name>` and the theme as
@@ -159,8 +161,8 @@ Requirements: Node.js 22.23 or later, pnpm 10.
 
 ```bash
 pnpm install
-pnpm dev          # all three apps
-pnpm build        # build all three apps
+pnpm dev          # all four apps
+pnpm build        # build all four apps
 pnpm lint
 pnpm typecheck
 ```
@@ -172,8 +174,28 @@ Run one app:
 | Vite  | `pnpm --filter vite-app dev`  | http://localhost:5173 |
 | Next  | `pnpm --filter next-app dev`  | http://localhost:3000 |
 | Astro | `pnpm --filter astro-app dev` | http://localhost:4321 |
+| Site  | `pnpm --filter site dev`      | http://localhost:4322 |
 
-Press `d` in any app to toggle dark mode.
+Press `d` in any app to toggle dark mode. The site also has a light/dark button.
+
+The install commands on the site use the tag in `apps/site/src/release-tag.ts`.
+Update that file when you cut a release, then redeploy.
+
+## Deploy the showcase
+
+`apps/site` builds a static site (`pnpm --filter site build` writes `apps/site/dist`).
+`apps/site/wrangler.jsonc` points Cloudflare Workers static assets at that folder.
+This repository does not deploy it and does not create a Cloudflare project.
+
+1. Build: `pnpm --filter site build`
+2. From `apps/site`, log in on your machine: `pnpm dlx wrangler@latest login`
+3. Deploy with one of these. The first run creates the Cloudflare project, so check
+   the name before you confirm it.
+   - Workers: `pnpm dlx wrangler@latest deploy`
+   - Pages: `pnpm dlx wrangler@latest pages deploy dist --project-name design-system-site`
+
+Preview the build locally with `pnpm --filter site preview` at
+http://127.0.0.1:4322.
 
 ### Add or update a component
 

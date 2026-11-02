@@ -1,0 +1,72 @@
+---
+import { ColorSwatches } from "../components/color-swatches"
+import Install from "../components/install.astro"
+import Site from "../layouts/site.astro"
+import { installCommand } from "../release-tag"
+
+const radii = [
+  ["sm", "rounded-sm", "0.6 × radius"],
+  ["md", "rounded-md", "0.8 × radius"],
+  ["lg", "rounded-lg", "1 × radius"],
+  ["xl", "rounded-xl", "1.4 × radius"],
+  ["2xl", "rounded-2xl", "1.8 × radius"],
+  ["3xl", "rounded-3xl", "2.2 × radius"],
+  ["4xl", "rounded-4xl", "2.6 × radius"],
+]
+---
+
+<Site
+  title="Theme · Design system"
+  description="Color tokens in light and dark, Inter and Cutive, and the radius scale."
+>
+  <div class="page">
+    <header class="flex flex-col gap-4">
+      <h1 class="page-title">Theme</h1>
+      <p class="lead">
+        Colors, type and radius come from one stylesheet. Dark mode swaps the
+        tokens. The markup stays the same. Primary is yellow, and it marks the
+        one main action of a view.
+      </p>
+      <Install command={installCommand("theme")} />
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="section-title">Color</h2>
+      <p class="text-sm text-muted-foreground">
+        Toggle dark mode to see the same tokens switch. Pair each surface with
+        its foreground token.
+      </p>
+      <ColorSwatches client:only="react" />
+    </section>
+
+    <section class="type-sample">
+      <h2 class="section-title">Type</h2>
+      <p class="font-serif text-4xl">Cutive for display text</p>
+      <p class="font-serif text-3xl">
+        A page title, a hero line, a large number
+      </p>
+      <p class="font-serif text-2xl">Cutive has one weight, 400</p>
+      <p>Inter for body text. This sentence is the default.</p>
+      <p class="text-sm">Inter at text-sm, for secondary copy.</p>
+      <p class="text-sm font-medium">Inter at 500, for labels and controls.</p>
+      <p class="font-semibold">Inter at 600, for headings.</p>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="section-title">Radius</h2>
+      <p class="text-sm text-muted-foreground">
+        Buttons and badges use the pill step, rounded-4xl. The base token is
+        --radius.
+      </p>
+      <div class="radii">
+        {radii.map(([name, shape, formula]) => (
+          <div class="radius-sample">
+            <div class:list={["radius-box", shape]} />
+            <span class="token-name">{name}</span>
+            <span class="token-value">{formula}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
+</Site>
