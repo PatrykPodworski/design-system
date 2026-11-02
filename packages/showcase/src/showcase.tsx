@@ -117,6 +117,8 @@ import {
   TooltipTrigger,
 } from "@workspace/ui/components/tooltip"
 
+import { DialogInNativeDialog } from "./dialog-in-native-dialog"
+
 const fruits = [
   { label: "Apple", value: "apple" },
   { label: "Banana", value: "banana" },
@@ -277,6 +279,7 @@ export function Showcase({ framework }: { framework: string }) {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
+            <DialogInNativeDialog />
             <AlertDialog>
               <AlertDialogTrigger render={<Button variant="outline" />}>
                 Alert dialog

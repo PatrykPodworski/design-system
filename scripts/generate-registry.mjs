@@ -103,16 +103,16 @@ function readBlock(css, selector) {
 }
 
 function buildTheme() {
+  checkSelectors(themeCss)
   const css = readFileSync(`${SRC}/styles/globals.css`, "utf8")
   const themeVars = readBlock(css, "@theme inline")
-  // `color-*` mappings are created by `shadcn init`, so the theme item does not
-  // repeat them. `color-link` is not in that set, so the theme ships it.
-  // Font variables come from the font items.
+  // `shadcn init` creates the `color-*` mappings of its own tokens, so the theme item
+  // ships only the mappings of tokens it adds. Font variables come from the font items.
   const fontVariables = fonts.map(({ font }) => font.variable.slice(2))
   const theme = Object.fromEntries(
     Object.entries(themeVars).filter(
       ([key]) =>
-        (key === "color-link" || !key.startsWith("color-")) &&
+        (THEME_COLOR_MAPPINGS.has(key) || !key.startsWith("color-")) &&
         !fontVariables.includes(key)
     )
   )
@@ -122,20 +122,43 @@ function buildTheme() {
     type: "registry:theme",
     title: "Theme",
     description: "Color, radius and font tokens of the design system.",
+    dependencies: ["shadcn", "tw-animate-css"],
     registryDependencies: fonts.map(({ name }) => address(name)),
     cssVars: {
       theme,
       light: readBlock(css, ":root"),
       dark: readBlock(css, ".dark"),
     },
-    css: {
-      "@layer base": {
-        'button:not(:disabled), [role="button"]:not(:disabled)': {
-          cursor: "pointer",
-        },
-      },
-    },
+    css: themeCss,
   }
+}
+
+// The CLI finds an existing rule by its exact selector text and appends a new one when
+// nothing matches. A formatter puts each selector of a list on its own line, so the
+// next install would add a copy. Single selectors keep the same text when formatted.
+function checkSelectors(css, path = []) {
+  for (const [key, value] of Object.entries(css)) {
+    if (!key.startsWith("@") && key.includes(",")) {
+      throw new Error(
+        `theme css: "${[...path, key].join(" > ")}" is a selector list; write one rule per selector`
+      )
+    }
+    if (typeof value === "object") checkSelectors(value, [...path, key])
+  }
+}
+
+// `color-*` mappings of tokens that `shadcn init` does not create.
+const THEME_COLOR_MAPPINGS = new Set(["color-overlay", "color-link"])
+
+// The components use `tw-animate-css` classes and the `data-open:`/`data-closed:`
+// variants from `shadcn/tailwind.css`. `shadcn init` adds both imports; the theme adds
+// them too, so a project set up without `init` gets them. The CLI skips an import the
+// file already has. The pointer cursor rule in globals.css is not here: `init --pointer`
+// writes it, and a second copy from the theme stops matching it once a formatter
+// splits its selector list.
+const themeCss = {
+  '@import "tw-animate-css"': {},
+  '@import "shadcn/tailwind.css"': {},
 }
 
 // Every font variable the theme defines comes from one of these items.

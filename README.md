@@ -127,6 +127,46 @@ Only release tags pin dependencies. With a branch or a commit SHA
 (`sidebar#<sha>`), the CLI installs the named item at that ref but its dependencies from
 `main`. Without a ref, everything comes from `main`.
 
+### Project setup
+
+- **Path aliases.** The CLI reads `paths` from the root `tsconfig.json` (or
+  `jsconfig.json`) to place files. A Vite project that declares `@/*` only in
+  `tsconfig.app.json` gets the files in a literal `@/` folder. Declare `paths` in the
+  root `tsconfig.json` too, as in [apps/vite/tsconfig.json](apps/vite/tsconfig.json):
+
+  ```json
+  {
+    "files": [],
+    "references": [
+      { "path": "./tsconfig.app.json" },
+      { "path": "./tsconfig.node.json" }
+    ],
+    "compilerOptions": { "paths": { "@/*": ["./src/*"] } }
+  }
+  ```
+
+- **Animation CSS.** The components use `tw-animate-css` classes and the
+  `data-open:`/`data-closed:` variants of `shadcn/tailwind.css`. `theme` adds both
+  imports and packages, so a project set up without `shadcn init` gets them too.
+- **Re-adding the theme.** The CLI finds the CSS it added before by exact text: an
+  `@import` by its quoted path, a rule by its selector. When a formatter changes that
+  text (single quotes in `@import`, or a selector list split onto several lines), the
+  next `add` appends a second copy. The theme adds variables, which the CLI matches by
+  name, and the two imports above with double quotes, as `shadcn init` writes them. It
+  adds no rules. The pointer cursor rule
+  (`button:not(:disabled), [role="button"]:not(:disabled)`) comes from
+  `init --pointer`; a project set up without it adds the rule itself. Releases up to
+  v0.3.0 added that rule from the theme too, so a formatted CSS file can hold two
+  copies: delete one.
+- **Lint, formatter and dead-code checks.** Installed components follow shadcn's style,
+  not your project's: function declarations, lowercase file names, and exports the app
+  may not use (`buttonVariants`). Exclude the components folder from those checks, so
+  the files stay identical to the registry and `add --overwrite` diffs show only
+  upstream changes. With the Vite layout (`src/components/ui`):
+  - ESLint: `globalIgnores(["src/components/ui/**"])` in `eslint.config.js`
+  - Prettier: a `src/components/ui/**` line in `.prettierignore`
+  - Knip: `"ignore": ["src/components/ui/**"]` in `knip.json`
+
 ## Repository layout
 
 ```
