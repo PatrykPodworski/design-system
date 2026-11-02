@@ -105,11 +105,15 @@ function readBlock(css, selector) {
 function buildTheme() {
   const css = readFileSync(`${SRC}/styles/globals.css`, "utf8")
   const themeVars = readBlock(css, "@theme inline")
-  // Color mappings come from `shadcn init`, the font variables from the font items.
+  // `color-*` mappings are created by `shadcn init`, so the theme item does not
+  // repeat them. `color-link` is not in that set, so the theme ships it.
+  // Font variables come from the font items.
   const fontVariables = fonts.map(({ font }) => font.variable.slice(2))
   const theme = Object.fromEntries(
     Object.entries(themeVars).filter(
-      ([key]) => !key.startsWith("color-") && !fontVariables.includes(key)
+      ([key]) =>
+        (key === "color-link" || !key.startsWith("color-")) &&
+        !fontVariables.includes(key)
     )
   )
 
