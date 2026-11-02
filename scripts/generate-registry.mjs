@@ -148,7 +148,7 @@ function checkSelectors(css, path = []) {
 }
 
 // `color-*` mappings of tokens that `shadcn init` does not create.
-const THEME_COLOR_MAPPINGS = new Set(["color-overlay"])
+const THEME_COLOR_MAPPINGS = new Set(["color-overlay", "color-link"])
 
 // The components use `tw-animate-css` classes and the `data-open:`/`data-closed:`
 // variants from `shadcn/tailwind.css`. `shadcn init` adds both imports; the theme adds
