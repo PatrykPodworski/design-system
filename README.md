@@ -43,6 +43,11 @@ Nothing is published to npm: the CLI copies the source files into your project.
    Components that depend on other components (for example `dialog` on `button`) install
    those too, from this registry.
 
+3. Delete the `.dark { ... }` block and the `@custom-variant dark (&:is(.dark *));` line
+   that `shadcn init` wrote to the main CSS file. The theme replaces both, but the CLI
+   cannot remove them. Set the theme with `data-theme` on `<html>`, as
+   [Dark mode](#dark-mode) says.
+
 List every item:
 
 ```bash
@@ -126,6 +131,29 @@ The item and every registry dependency it pulls in (for `sidebar`: `button`, `sh
 Only release tags pin dependencies. With a branch or a commit SHA
 (`sidebar#<sha>`), the CLI installs the named item at that ref but its dependencies from
 `main`. Without a ref, everything comes from `main`.
+
+### Dark mode
+
+Each color token holds its light and dark value in one `light-dark()`, and
+`color-scheme` on `<html>` picks one. Without a stored choice the page follows the system
+setting, even before any script runs. To choose a theme, set `data-theme="light"` or
+`data-theme="dark"` on `<html>`. `dark:` utilities match only `data-theme="dark"`, so set
+the attribute before first paint, also when the app follows the system setting. With
+`next-themes`, pass `attribute="data-theme"`.
+
+### Upgrade from the `.dark` class
+
+Older releases switched dark mode with a `.dark` class. The theme no longer uses that
+class. To upgrade a project:
+
+1. Add the theme with the new tag and `--overwrite`. The CLI writes the `light-dark()`
+   tokens, the `color-scheme` rules and a second `@custom-variant dark` that replaces
+   the first.
+2. Delete the `.dark { ... }` block and the `@custom-variant dark (&:is(.dark *));` line
+   from the main CSS file. The CLI cannot remove them.
+3. Set `data-theme` on `<html>` where the app toggled the `.dark` class. With
+   `next-themes`, change `attribute="class"` to `attribute="data-theme"`.
+4. Replace `.dark` selectors in the project's own CSS with `[data-theme="dark"]`.
 
 ## Repository layout
 
