@@ -40,9 +40,13 @@ apps update to the new release tag. An update overwrites local edits.
   button, uses `link`.
 - `destructive` is for actions that delete or cannot be undone, and for errors.
 - Text on `muted` or `background` that is secondary uses `text-muted-foreground`.
-- Every screen works in light and dark mode. Dark mode is the `.dark` class on a parent
-  element; the tokens switch, the markup does not change. Never write `dark:` overrides
-  for colors that a token already covers.
+- Every screen works in light and dark mode. Each color token holds both values in one
+  `light-dark()`, and `color-scheme` picks one: without a stored choice the page follows
+  the system setting. Set `data-theme="light"` or `data-theme="dark"` on `<html>` to
+  choose a theme; the tokens switch, the markup does not change. `dark:` utilities match
+  only `data-theme="dark"`, so an app sets `data-theme` on `<html>` before first paint,
+  including when it follows the system. Never write `dark:` overrides for colors that a
+  token already covers.
 - A color the tokens lack (a brand accent, a category color) is a new token: add it to
   the theme in the design-system repository, not to one app.
 

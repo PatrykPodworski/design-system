@@ -88,34 +88,44 @@ function buildItem(dir, file, type, target) {
   }
 }
 
-// Reads the custom properties declared inside `selector { ... }` in globals.css.
+// Reads the declarations inside `selector { ... }` in globals.css, keyed by property.
 function readBlock(css, selector) {
   const start = css.indexOf(`${selector} {`)
   if (start === -1)
     throw new Error(`globals.css: "${selector}" block not found`)
   const body = css.slice(start, css.indexOf("}", start))
   return Object.fromEntries(
-    [...body.matchAll(/--([\w-]+):\s*([^;]+);/g)].map((m) => [
-      m[1],
-      m[2].trim(),
-    ])
+    [...body.matchAll(/([\w-]+):\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()])
   )
 }
 
 function buildTheme() {
   const css = readFileSync(`${SRC}/styles/globals.css`, "utf8")
-  const themeVars = readBlock(css, "@theme inline")
   // `color-*` mappings are created by `shadcn init`, so the theme item does not
   // repeat them. `color-link` is not in that set, so the theme ships it.
   // Font variables come from the font items.
-  const fontVariables = fonts.map(({ font }) => font.variable.slice(2))
+  const fontVariables = fonts.map(({ font }) => font.variable)
   const theme = Object.fromEntries(
-    Object.entries(themeVars).filter(
-      ([key]) =>
-        (key === "color-link" || !key.startsWith("color-")) &&
-        !fontVariables.includes(key)
-    )
+    Object.entries(readBlock(css, "@theme inline"))
+      .filter(
+        ([key]) =>
+          (key === "--color-link" || !key.startsWith("--color-")) &&
+          !fontVariables.includes(key)
+      )
+      .map(([key, value]) => [key.slice(2), value])
   )
+  // The `light` and `dark` keys of `cssVars` make the CLI write a second token block
+  // for a dark class, so the `light-dark()` tokens ship as plain rules. The CLI cannot
+  // remove the class-based dark variant that `shadcn init` writes; a later
+  // `@custom-variant dark` replaces it.
+  const darkVariant = css.match(/@custom-variant dark [^;]+/)?.[0]
+  if (!darkVariant)
+    throw new Error("globals.css: `@custom-variant dark` not found")
+  const themeSelectors = [
+    ":root",
+    '[data-theme="light"]',
+    '[data-theme="dark"]',
+  ]
 
   return {
     name: "theme",
@@ -123,12 +133,12 @@ function buildTheme() {
     title: "Theme",
     description: "Color, radius and font tokens of the design system.",
     registryDependencies: fonts.map(({ name }) => address(name)),
-    cssVars: {
-      theme,
-      light: readBlock(css, ":root"),
-      dark: readBlock(css, ".dark"),
-    },
+    cssVars: { theme },
     css: {
+      [darkVariant]: {},
+      ...Object.fromEntries(
+        themeSelectors.map((selector) => [selector, readBlock(css, selector)])
+      ),
       "@layer base": {
         'button:not(:disabled), [role="button"]:not(:disabled)': {
           cursor: "pointer",

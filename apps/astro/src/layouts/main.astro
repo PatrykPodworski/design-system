@@ -20,7 +20,7 @@ const { title } = Astro.props
       const stored = localStorage.getItem("theme")
       const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches
       const isDark = stored ? stored === "dark" : prefersDark
-      root.classList.toggle("dark", isDark)
+      root.dataset.theme = isDark ? "dark" : "light"
       addEventListener("keydown", (event) => {
         if (event.repeat || event.metaKey || event.ctrlKey || event.altKey)
           return
@@ -31,7 +31,8 @@ const { title } = Astro.props
           target.closest("input, textarea, select, [contenteditable='true']")
         )
           return
-        const next = root.classList.toggle("dark") ? "dark" : "light"
+        const next = root.dataset.theme === "dark" ? "light" : "dark"
+        root.dataset.theme = next
         localStorage.setItem("theme", next)
       })
     </script>

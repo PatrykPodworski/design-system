@@ -109,8 +109,7 @@ export function ThemeProvider({
         ? disableTransitionsTemporarily()
         : null
 
-      root.classList.remove("light", "dark")
-      root.classList.add(resolvedTheme)
+      root.dataset.theme = resolvedTheme
 
       if (restoreTransitions) {
         restoreTransitions()
