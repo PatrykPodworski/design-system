@@ -1,8 +1,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/inter";
+@import "@fontsource-variable/onest";
 @import "@fontsource/cutive";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource/ibm-plex-mono/600.css";
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 @source "../../../../apps/**/*.{ts,tsx,astro}";
@@ -37,6 +40,7 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
   --color-link: var(--link);
+  --color-overlay: var(--overlay);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -50,8 +54,10 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-  --font-sans: "Inter Variable", sans-serif;
+  --font-sans: "Onest Variable", sans-serif;
   --font-serif: "Cutive", serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --shadow-popover: 0 8px 24px -6px oklch(0 0 0 / 0.18);
 }
 
 :root {
@@ -80,6 +86,7 @@
   --chart-3: light-dark(oklch(0.681 0.162 75.834), oklch(0.681 0.162 75.834));
   --chart-4: light-dark(oklch(0.554 0.135 66.442), oklch(0.554 0.135 66.442));
   --chart-5: light-dark(oklch(0.476 0.114 61.907), oklch(0.476 0.114 61.907));
+  --overlay: oklch(0 0 0 / 50%);
   --radius: 0.875rem;
   --sidebar: light-dark(oklch(0.987 0.002 197.1), oklch(0.218 0.008 223.9));
   --sidebar-foreground: light-dark(oklch(0.148 0.004 228.8), oklch(0.987 0.002 197.1));

@@ -99,17 +99,21 @@ function readBlock(css, selector) {
   )
 }
 
+// Color mappings that `shadcn init` does not create.
+const OWN_COLORS = new Set(["--color-link", "--color-overlay"])
+
 function buildTheme() {
   const css = readFileSync(`${SRC}/styles/globals.css`, "utf8")
   // `color-*` mappings are created by `shadcn init`, so the theme item does not
-  // repeat them. `color-link` is not in that set, so the theme ships it.
+  // repeat them. `color-link` and `color-overlay` are not in that set, so the theme
+  // ships them.
   // Font variables come from the font items.
   const fontVariables = fonts.map(({ font }) => font.variable)
   const theme = Object.fromEntries(
     Object.entries(readBlock(css, "@theme inline"))
       .filter(
         ([key]) =>
-          (key === "--color-link" || !key.startsWith("--color-")) &&
+          (OWN_COLORS.has(key) || !key.startsWith("--color-")) &&
           !fontVariables.includes(key)
       )
       .map(([key, value]) => [key.slice(2), value])
@@ -151,17 +155,17 @@ function buildTheme() {
 // Every font variable the theme defines comes from one of these items.
 const fonts = [
   {
-    name: "font-inter",
+    name: "font-onest",
     type: "registry:font",
-    title: "Inter",
-    description: "Inter as the sans-serif font.",
+    title: "Onest",
+    description: "Onest as the sans-serif font for all UI text.",
     font: {
-      family: "'Inter Variable', sans-serif",
+      family: "'Onest Variable', sans-serif",
       provider: "google",
-      import: "Inter",
+      import: "Onest",
       variable: "--font-sans",
-      subsets: ["latin"],
-      dependency: "@fontsource-variable/inter",
+      subsets: ["latin", "latin-ext"],
+      dependency: "@fontsource-variable/onest",
     },
   },
   {
@@ -178,8 +182,26 @@ const fonts = [
       subsets: ["latin"],
       dependency: "@fontsource/cutive",
       // Without a selector the CLI rewrites the consumer's `html { @apply font-sans }`
-      // to the font installed last. An empty selector adds no base rule, so Inter stays
+      // to the font installed last. An empty selector adds no base rule, so Onest stays
       // the default and Cutive applies only through `font-serif`.
+      selector: "",
+    },
+  },
+  {
+    name: "font-ibm-plex-mono",
+    type: "registry:font",
+    title: "IBM Plex Mono",
+    description:
+      "IBM Plex Mono as the monospace font for code, paths and keys.",
+    font: {
+      family: "'IBM Plex Mono', monospace",
+      provider: "google",
+      import: "IBM_Plex_Mono",
+      variable: "--font-mono",
+      weight: ["400", "500", "600"],
+      subsets: ["latin", "latin-ext"],
+      dependency: "@fontsource/ibm-plex-mono",
+      // The same reason as Cutive: it applies only through `font-mono`.
       selector: "",
     },
   },

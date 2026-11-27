@@ -29,8 +29,8 @@ Nothing is published to npm: the CLI copies the source files into your project.
 
    This repository tests the theme and components with `vite`, `next` and `astro`.
 
-2. Add the theme (colors, radius, the Inter and Cutive fonts) and the components you
-   need:
+2. Add the theme (colors, radius, shadow, the Onest, Cutive and IBM Plex Mono fonts)
+   and the components you need:
 
    ```bash
    pnpm dlx shadcn@latest add --yes PatrykPodworski/design-system/theme
@@ -56,12 +56,15 @@ pnpm dlx shadcn@latest list PatrykPodworski/design-system
 
 ### Fonts
 
-The theme installs two font items:
+The theme installs three font items:
 
-- `font-inter`: Inter (`@fontsource-variable/inter`) as `--font-sans`, the default for
+- `font-onest`: Onest (`@fontsource-variable/onest`) as `--font-sans`, the default for
   all text.
 - `font-cutive`: Cutive (`@fontsource/cutive`) as `--font-serif`, for display text
   through the `font-serif` utility. It does not change the default font.
+- `font-ibm-plex-mono`: IBM Plex Mono (`@fontsource/ibm-plex-mono`, weights 400, 500
+  and 600) as `--font-mono`, for code through the `font-mono` utility. It does not
+  change the default font.
 
 [DESIGN.md](DESIGN.md) says where each font goes.
 
@@ -154,6 +157,21 @@ class. To upgrade a project:
 3. Set `data-theme` on `<html>` where the app toggled the `.dark` class. With
    `next-themes`, change `attribute="class"` to `attribute="data-theme"`.
 4. Replace `.dark` selectors in the project's own CSS with `[data-theme="dark"]`.
+
+### Upgrade from Inter
+
+Older releases installed Inter through the `font-inter` item. The theme now installs
+Onest and IBM Plex Mono instead. To upgrade a project:
+
+1. Add the theme with the new tag and `--overwrite`. The CLI installs `font-onest` and
+   `font-ibm-plex-mono` and sets `--font-sans` and `--font-mono`.
+2. Delete the `@import "@fontsource-variable/inter";` line from the main CSS file, and
+   remove `@fontsource-variable/inter` from `package.json`.
+3. Update the components with the new tag and `--overwrite`. Menus, popovers, dialogs,
+   sheets, drawers and toasts use the new `shadow-popover` and `bg-overlay` utilities,
+   which the new theme defines.
+4. Check screens with dense text: Onest is slightly smaller and narrower than Inter, so
+   line breaks can change.
 
 ## Repository layout
 

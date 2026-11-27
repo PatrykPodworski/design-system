@@ -34,7 +34,9 @@ apps update to the new release tag. An update overwrites local edits.
 
 - Use semantic tokens only: `background`/`foreground`, `card`, `popover`, `primary`,
   `secondary`, `muted`, `accent`, `destructive`, `link`, `border`, `input`, `ring`,
-  `chart-1`…`5`, `sidebar-*`. Pair each surface with its `-foreground` token.
+  `overlay`, `chart-1`…`5`, `sidebar-*`. Pair each surface with its `-foreground` token.
+- `overlay` is the layer behind a dialog, sheet or drawer: black at 50% with a 4px
+  backdrop blur, set by the components.
 - `primary` (yellow) marks the one main action of a view and the current selection. Do
   not use it for large backgrounds or for text. Yellow text, including the `link`
   button, uses `link`.
@@ -52,17 +54,23 @@ apps update to the new release tag. An update overwrites local edits.
 
 ## Typography
 
-- Two fonts, both installed by the theme:
-  - Inter (`font-sans`) is the default for everything: body text, labels, controls and
-    headings (`font-heading` is Inter as well).
+- Three fonts, all installed by the theme:
+  - Onest (`font-sans`) is the default for everything: body text, labels, controls and
+    headings (`font-heading` is Onest as well).
   - Cutive (`font-serif`) is for display text only: a page title, a hero line, a large
     number or quote. Use it at `text-2xl` and larger, never for body text, labels,
     buttons or form controls.
+  - IBM Plex Mono (`font-mono`) is for code, file paths, commands, diffs, IDs and
+    keyboard keys. Do not use it for labels, headings or numbers in tables; tables use
+    `tabular-nums` on the sans.
+- Cutive applies to a whole line or block. Never set one word of a sans line in the
+  serif, and never set the serif in italic.
 - Cutive has one weight (400). Do not combine `font-serif` with `font-medium`,
   `font-semibold` or `font-bold`: the browser would fake a bold.
+- Onest has no italic. For italic text the browser slants the upright letters.
 - Use Tailwind's type scale (`text-xs` … `text-4xl`). Body text is `text-sm` or
   `text-base`.
-- Inter weights: 400 for body, 500 for labels and controls, 600 for headings.
+- Onest weights: 400 for body, 500 for labels and controls, 600 for headings.
 - Sentence case for headings, buttons and labels.
 
 ## Spacing and layout
@@ -74,8 +82,10 @@ apps update to the new release tag. An update overwrites local edits.
 - Mobile first. Layouts work from 360px wide with no horizontal scroll.
 - Radius comes from `rounded-*`, which follows `--radius`. Buttons and badges are pill
   shaped (`rounded-4xl`, set by the component); do not change it per use.
-- Shadows stay subtle and come from the components (popover, dialog, sheet). Cards rely
-  on the border, not on a shadow.
+- Floating surfaces (menus, select, popover, hover card, dialog, sheet, drawer, toast)
+  are solid `bg-popover` with a 1px outline and one shadow, `shadow-popover`. The
+  components set both. No translucent or blurred surfaces.
+- Cards rely on the border, not on a shadow. Do not add shadows elsewhere.
 
 ## Components
 
@@ -114,6 +124,25 @@ Pick the component by job:
   Do not restyle its color, size or radius through `className`; use a variant. A missing
   variant goes to the design-system repository.
 - Icons come from `lucide-react`, sized by the component (16px by default).
+
+## Patterns we do not use
+
+A slop pattern is a visual or copy pattern that is common in generated UIs and gives the
+user no information. Do not build these, even when a request or a reference asks for
+"modern" or "polished" UI:
+
+- **Fake social proof.** Logo marquees, testimonials, star ratings, user counts, and stat
+  cards or animated counters without real data behind them.
+- **Decoration.** Gradients on backgrounds, buttons or text; glow; glass (translucent,
+  blurred) surfaces; emoji in headings, buttons, badges or icons; thick colored left
+  borders on cards and alerts; pulsing status dots with no live status behind them;
+  shimmer or sparkle effects.
+- **Layout tropes.** An eyebrow pill above a headline ("New: v2.0"); bento grids; rows of
+  three icon cards that repeat the headline; an elevated "most popular" pricing card;
+  a fake terminal window or "Ask AI anything" bar as decoration.
+- **Copy tropes.** Filler marketing text; "It's not just X, it's Y"; em-dashes in UI copy;
+  vague superlatives ("seamless", "powerful", "next-generation"). Say what the thing does,
+  in plain words.
 
 ## Accessibility
 
