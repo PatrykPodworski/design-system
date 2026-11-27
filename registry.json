@@ -9,20 +9,23 @@
       "title": "Theme",
       "description": "Color, radius and font tokens of the design system.",
       "registryDependencies": [
-        "PatrykPodworski/design-system/font-inter",
-        "PatrykPodworski/design-system/font-cutive"
+        "PatrykPodworski/design-system/font-onest",
+        "PatrykPodworski/design-system/font-cutive",
+        "PatrykPodworski/design-system/font-ibm-plex-mono"
       ],
       "cssVars": {
         "theme": {
           "font-heading": "var(--font-sans)",
           "color-link": "var(--link)",
+          "color-overlay": "var(--overlay)",
           "radius-sm": "calc(var(--radius) * 0.6)",
           "radius-md": "calc(var(--radius) * 0.8)",
           "radius-lg": "var(--radius)",
           "radius-xl": "calc(var(--radius) * 1.4)",
           "radius-2xl": "calc(var(--radius) * 1.8)",
           "radius-3xl": "calc(var(--radius) * 2.2)",
-          "radius-4xl": "calc(var(--radius) * 2.6)"
+          "radius-4xl": "calc(var(--radius) * 2.6)",
+          "shadow-popover": "0 8px 24px -6px oklch(0 0 0 / 0.18)"
         }
       },
       "css": {
@@ -53,6 +56,7 @@
           "--chart-3": "light-dark(oklch(0.681 0.162 75.834), oklch(0.681 0.162 75.834))",
           "--chart-4": "light-dark(oklch(0.554 0.135 66.442), oklch(0.554 0.135 66.442))",
           "--chart-5": "light-dark(oklch(0.476 0.114 61.907), oklch(0.476 0.114 61.907))",
+          "--overlay": "oklch(0 0 0 / 50%)",
           "--radius": "0.875rem",
           "--sidebar": "light-dark(oklch(0.987 0.002 197.1), oklch(0.218 0.008 223.9))",
           "--sidebar-foreground": "light-dark(oklch(0.148 0.004 228.8), oklch(0.987 0.002 197.1))",
@@ -77,19 +81,20 @@
       }
     },
     {
-      "name": "font-inter",
+      "name": "font-onest",
       "type": "registry:font",
-      "title": "Inter",
-      "description": "Inter as the sans-serif font.",
+      "title": "Onest",
+      "description": "Onest as the sans-serif font for all UI text.",
       "font": {
-        "family": "'Inter Variable', sans-serif",
+        "family": "'Onest Variable', sans-serif",
         "provider": "google",
-        "import": "Inter",
+        "import": "Onest",
         "variable": "--font-sans",
         "subsets": [
-          "latin"
+          "latin",
+          "latin-ext"
         ],
-        "dependency": "@fontsource-variable/inter"
+        "dependency": "@fontsource-variable/onest"
       }
     },
     {
@@ -109,6 +114,29 @@
           "latin"
         ],
         "dependency": "@fontsource/cutive",
+        "selector": ""
+      }
+    },
+    {
+      "name": "font-ibm-plex-mono",
+      "type": "registry:font",
+      "title": "IBM Plex Mono",
+      "description": "IBM Plex Mono as the monospace font for code, paths and keys.",
+      "font": {
+        "family": "'IBM Plex Mono', monospace",
+        "provider": "google",
+        "import": "IBM_Plex_Mono",
+        "variable": "--font-mono",
+        "weight": [
+          "400",
+          "500",
+          "600"
+        ],
+        "subsets": [
+          "latin",
+          "latin-ext"
+        ],
+        "dependency": "@fontsource/ibm-plex-mono",
         "selector": ""
       }
     },

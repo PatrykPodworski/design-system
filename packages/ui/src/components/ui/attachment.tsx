@@ -100,10 +100,7 @@ function AttachmentTitle({
   return (
     <span
       data-slot="attachment-title"
-      className={cn(
-        "block max-w-full min-w-0 truncate font-medium group-data-[state=processing]/attachment:shimmer group-data-[state=uploading]/attachment:shimmer",
-        className
-      )}
+      className={cn("block max-w-full min-w-0 truncate font-medium", className)}
       {...props}
     />
   )

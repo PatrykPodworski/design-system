@@ -165,7 +165,10 @@ export function Showcase({ framework }: { framework: string }) {
           <Section title="Typography">
             <div className="flex flex-col gap-2">
               <p className="font-serif text-3xl">Cutive for display text</p>
-              <p>Inter for body text, labels and controls.</p>
+              <p>Onest for body text, labels and controls.</p>
+              <p className="font-mono text-sm">
+                IBM Plex Mono for code: pnpm registry:check
+              </p>
             </div>
           </Section>
 
